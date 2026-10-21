@@ -174,6 +174,51 @@ class SuccessResponseTests(TestCase):
         self.assertEqual(self.response.certificate, "dummy cert object")
 
 
+class SuccessResponseCharsetTests(TestCase):
+    """
+    SuccessResponse.data() should honour the charset in the meta field
+    """
+
+    def _data(self, meta, raw_body):
+        return ResponseFactory.create(
+            "gemini://test.com/",
+            RESPONSE_STATUSDETAIL_SUCCESS,
+            meta=meta,
+            raw_body=raw_body,
+            certificate=None,
+        ).data()
+
+    def test_non_default_charset(self):
+        body = "caf\u00e9".encode("iso-8859-1")
+        self.assertEqual(
+            self._data("text/gemini; charset=iso-8859-1", body), "caf\u00e9"
+        )
+
+    def test_quoted_charset(self):
+        body = "caf\u00e9".encode("iso-8859-1")
+        self.assertEqual(
+            self._data('text/gemini; charset="iso-8859-1"', body), "caf\u00e9"
+        )
+
+    def test_charset_name_is_case_insensitive(self):
+        body = "caf\u00e9".encode("iso-8859-1")
+        self.assertEqual(
+            self._data("text/gemini; CHARSET=ISO-8859-1", body), "caf\u00e9"
+        )
+
+    def test_missing_charset_defaults_to_utf8(self):
+        body = "caf\u00e9".encode("utf-8")
+        self.assertEqual(self._data("text/gemini", body), "caf\u00e9")
+
+    def test_empty_meta_defaults_to_utf8(self):
+        body = "caf\u00e9".encode("utf-8")
+        self.assertEqual(self._data("", body), "caf\u00e9")
+
+    def test_unknown_charset_returns_raw_body(self):
+        body = b"hello"
+        self.assertEqual(self._data("text/gemini; charset=bogus", body), body)
+
+
 class RedirectResponseTests(TestCase):
     """
     Handles RedirectResponse type

@@ -6,12 +6,33 @@ at http://mozilla.org/MPL/2.0/.
 """
 
 import logging
+import urllib.parse
 
 from .globals import GEMINI_PORT, GEMINI_SCHEME
-from .python import urllib
 from .util import normalize_path
 
 logger = logging.getLogger(__name__)
+
+
+def _register_gemini_scheme():
+    """
+    Polyfill to teach urllib.parse about the gemini scheme.
+
+    urljoin() only resolves relative references for schemes listed in
+    uses_relative/uses_netloc, and urlparse() only splits ;params for schemes
+    in uses_params. The stdlib has no gemini entry, so we add it. This is the
+    same on every supported Python version, and is idempotent.
+    """
+    for registry in (
+        urllib.parse.uses_relative,
+        urllib.parse.uses_netloc,
+        urllib.parse.uses_params,
+    ):
+        if GEMINI_SCHEME not in registry:
+            registry.append(GEMINI_SCHEME)
+
+
+_register_gemini_scheme()
 
 
 class URL:

@@ -21,7 +21,7 @@ In addition, in order to provide stability and simplicity, minimal third-party d
 Ignition is no longer being updated.
 
 ## Installation
-⚠ Ignition supports Python versions 3.7 - 3.12.
+⚠ Ignition supports Python versions 3.7 - 3.13.
 
 Ignition can be installed via [PIP](https://pypi.org/project/ignition-gemini/).  You should install it in alignment with your current development process; if you do not have a build process yet, I recommend you install within a [virtual environment](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/)
 

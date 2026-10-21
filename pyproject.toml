@@ -19,6 +19,7 @@ classifiers = [
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3 :: Only",
 ]
 keywords = [
@@ -81,16 +82,10 @@ include = [
 [tool.hatch.build.targets.wheel]
 packages = ["ignition"]
 
-[tool.black]
-exclude = "ignition/python"
-
 [tool.ruff]
 select = [
   "I", # isort
   "PLC", # pylint conventions
   "PLE", # pylint errors
   "PLW", # pylint warnings
-]
-exclude = [
-  "ignition/python",
 ]
