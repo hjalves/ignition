@@ -5,8 +5,8 @@ was not distributed with this file, You can obtain one
 at http://mozilla.org/MPL/2.0/.
 """
 
-import cgi
 import logging
+from email.message import Message
 
 from cryptography.x509 import Certificate
 
@@ -191,10 +191,9 @@ class SuccessResponse(BaseResponse):
         """
 
         meta = self.meta or GEMINI_DEFAULT_MIME_TYPE
-        _, options = cgi.parse_header(meta)
-        encoding = (
-            options["charset"] if "charset" in options else GEMINI_DEFAULT_ENCODING
-        )
+        msg = Message()
+        msg["content-type"] = meta
+        encoding = msg.get_content_charset() or GEMINI_DEFAULT_ENCODING
         try:
             return self.raw_body.decode(encoding)
         except LookupError:
