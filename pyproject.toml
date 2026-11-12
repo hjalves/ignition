@@ -2,19 +2,18 @@
 name = "ignition-gemini"
 authors = [
   { name="Chris Brousseau", email="cbrews@users.noreply.github.com" },
+  { name="Humberto Alves", email="hjalves@live.com" }
 ]
 description = "ignition - Gemini Protocol Client Transport Library"
 readme = "README.md"
 license = { text = "MPL 2.0" }
-requires-python = ">=3.7"
+requires-python = ">=3.11"
 classifiers = [
   "Development Status :: 7 - Inactive",
   "Intended Audience :: Developers",
   "Topic :: Software Development :: Libraries",
   "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.7",
-  "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
@@ -36,18 +35,15 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-  "cryptography==42.0.5",
   "mock==5.1.0",
   "pytest==7.4.4",
   "pytest-cov==4.1.0",
   "pytest-mock==3.11.1",
-  "black==24.4.0",
   "pre-commit==3.7.0",
-  "ruff==0.4.0",
+  "ruff>=0.17.4",
 ]
 lint = [
-  "ruff==0.4.0",
-  "black==24.4.0",
+  "ruff>=0.17.4",
   "mock==5.1.0",
   "pytest==7.4.4",
 ]
@@ -63,7 +59,7 @@ build = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/cbrews/ignition"
+"Homepage" = "https://github.com/hjalves/ignition"
 
 [build-system]
 requires = ['hatchling']
@@ -83,6 +79,10 @@ include = [
 packages = ["ignition"]
 
 [tool.ruff]
+target-version = "py314"
+line-length = 88
+
+[tool.ruff.lint]
 select = [
   "I", # isort
   "PLC", # pylint conventions
