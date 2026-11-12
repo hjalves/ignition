@@ -21,7 +21,7 @@ def test_certificate_parse():
         cert_wrapper.certificate.subject.rfc4514_string()
         == "1.2.840.113549.1.9.1=n/a,CN=n/a,OU=Test Certficate,O=Test Certificate,L=New York,ST=NY,C=US"
     )
-    assert cert_wrapper.expiration() == datetime.datetime(2022, 2, 20, 17, 50, 54)
+    assert cert_wrapper.expiration() == datetime.datetime(2022, 2, 20, 17, 50, 54).replace(tzinfo=datetime.UTC)
     assert (
         cert_wrapper.fingerprint()
         == "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDzR2vptlPcQUlDHLanY9RsSwLgFHT3ecCyUicbY4HBOvlqRRL9l"

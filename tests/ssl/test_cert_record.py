@@ -15,8 +15,8 @@ import pytest
 from ignition.exceptions import CertRecordParseException
 from ignition.ssl.cert_record import CertRecord
 
-test_datetime = datetime.datetime(2020, 11, 15, 12, 15, 2, 438000)
-test_past_datetime = datetime.datetime(2018, 1, 1, 0, 0, 0, 0)
+test_datetime = datetime.datetime(2020, 11, 15, 12, 15, 2, 438000).replace(tzinfo=datetime.UTC)
+test_past_datetime = datetime.datetime(2018, 1, 1, 0, 0, 0, 0).replace(tzinfo=datetime.UTC)
 
 
 def test_initialize():
@@ -50,13 +50,13 @@ def test_to_string():
     cert_record = CertRecord("myhostname.sample", "ssh-rsa fingerprint", test_datetime)
     assert (
         cert_record.to_string()
-        == "myhostname.sample ssh-rsa fingerprint;EXPIRES=2020-11-15T12:15:02.438000\n"
+        == "myhostname.sample ssh-rsa fingerprint;EXPIRES=2020-11-15T12:15:02.438Z\n"
     )
 
 
 @mock.patch("ignition.ssl.cert_record.datetime")
 def test_is_expired(datetime_mock):
-    mocked_date_value = datetime.datetime(2020, 1, 1, 0, 0, 0, 0)
+    mocked_date_value = datetime.datetime(2020, 1, 1, 0, 0, 0, 0).replace(tzinfo=datetime.UTC)
     datetime_mock.datetime.now = mock.Mock(return_value=mocked_date_value)
 
     cert_record_not_expired = CertRecord(

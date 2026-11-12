@@ -57,7 +57,7 @@ class CertRecord:
             + " "
             + self.fingerprint
             + ";EXPIRES="
-            + self.expiration.isoformat()
+            + self.expiration.isoformat(timespec="milliseconds").replace("+00:00", "Z")
             + EOL
         )
 
